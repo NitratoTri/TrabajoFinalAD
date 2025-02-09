@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Controller
-public class CRUDcontroller {
+public class ProductoCRUDcontroller {
     @Autowired
     ProductoRepository productoRepository;
     @Autowired
@@ -67,6 +67,23 @@ public class CRUDcontroller {
             model.addAttribute("producto", producto);
             return "formularioProducto";
         }
+    }
+    //Meotodo getmapping para modificar un producto
+    @PostMapping("/crud/modificarproducto")
+    public String modificarProducto(@RequestParam("id") Long id, Model model) {
+        Producto producto = productoRepository.findById(id).orElse(null);
+        if (producto == null) {
+            return "redirect:/";
+        }
+        model.addAttribute("producto", producto);
+        model.addAttribute("categorias", repoCategorias.findAll());
+        return "formularioProducto";
+    }
+    //Metodo para eliminar un producto
+    @PostMapping("/crud/eliminarproducto")
+    public String eliminarProducto(@RequestParam("id") Long id) {
+        productoRepository.deleteById(id);
+        return "redirect:/";
     }
 
 

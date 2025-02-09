@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class CrearBBBDD implements CommandLineRunner{
     @Autowired
@@ -59,6 +61,14 @@ public class CrearBBBDD implements CommandLineRunner{
             categoriaRepository.save(categoria2);
             categoriaRepository.save(categoria3);
 
+            //Creamos productos de ejemplo
+            Producto producto1= new Producto();
+            producto1.setNombre("Catan");
+            producto1.setPrecio(40.0);
+            producto1.setDescripcion("Juego de mesa de estrategia");
+            producto1.setImagen("../img/icon.jpg");
+            producto1.setCategorias(List.of(categoria1));
+            productoRepository.save(producto1);
 
 
 
