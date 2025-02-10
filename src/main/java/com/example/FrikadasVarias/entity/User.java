@@ -80,4 +80,27 @@ public class User
         this.name = name;
     }
 
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
+    }
+
+    public Cesta getCesta() {
+        return cesta;
+    }
+
+    public void setCesta(Cesta cesta) {
+        this.cesta = cesta;
+    }
+
+    public List<Mesa> getMesa() {
+        return mesa;
+    }
+
+    public void setMesa(List<Mesa> mesa) {
+        this.mesa = mesa;
+    }
 }

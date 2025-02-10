@@ -114,7 +114,15 @@
                         </th:block>
                         <p class="card-text" th:text="${producto.descripcion}"></p>
                         <p class="card-text" th:text="${'Precio: '+producto.precio +'€'}"></p>
-                        <a href="#" class="btn btn-primary">Comprar</a>
+                        <!-- Boton para añadir al carrito-->
+                        <form th:action="@{/añadircarrito}"class="form-horizontal add-to-cart-form" role="form" method="post">
+                            <input type="hidden" name="id" th:value="${producto.id}">
+                            <input type="hidden" name="nombre" th:value="${producto.nombre}">
+                            <input type="hidden" name="precio" th:value="${producto.precio}">
+                            <input type="hidden" name="imagen" th:value="${'/file/download/'+producto.imagen}">
+                            <button  type="submit" class="btn btn-primary add-to-cart-btn">Añadir al carrito</button>
+                        </form>
+
                     </div>
                 </div>
             </th:block>
@@ -143,5 +151,7 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="../JS/carrito.js"></script>
+
 </body>
 </html>

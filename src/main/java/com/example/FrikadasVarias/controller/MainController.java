@@ -10,6 +10,8 @@ import com.example.FrikadasVarias.repository.ProductoRepository;
 import com.example.FrikadasVarias.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,9 +54,23 @@ public class MainController {
     }
 
     @GetMapping("/cesta")
-    public String cesta(){
-        return "cesta";
+    public String cesta(Model model, Authentication auth) {
+        // Obtén el email del usuario autenticado
+        String email = auth.getName();
+
+        // Busca los productos en la cesta del usuario
+        List<Producto> productos = productoRepo.findByCestas_User_Email(email);
+
+        // Calcula el subtotal de los productos en la cesta
+        double subtotal = productos.stream().mapToDouble(Producto::getPrecio).sum();
+
+        // Agrega los datos al modelo para pasarlos a la vista
+        model.addAttribute("cesta", productos);
+        model.addAttribute("subtotal", subtotal);
+
+        return "cesta"; // Nombre del archivo HTML (cesta.html)
     }
+
     @GetMapping("/admin/logout")
     public String logoutAdmin(){
         return "/logout";
@@ -106,7 +122,19 @@ public class MainController {
         return "register";
     }
 
+//Metodo post de añadir al carrito
+@PostMapping("/añadircarrito")
+@ResponseBody
+public ResponseEntity<String> añadirCarrito(@RequestParam("id") Long id, Authentication auth) {
+    String email = auth.getName();
+    Producto producto = productoRepo.findById(id).orElse(null);
+    if (producto!= null) {
+        userService.addProductoToCesta(email, producto);
 
+        return ResponseEntity.ok("Producto añadido correctamente a la cesta");
+    }
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Producto no encontrado");
+}
 
 
 }
