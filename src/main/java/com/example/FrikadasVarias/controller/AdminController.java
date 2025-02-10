@@ -25,6 +25,7 @@ public class AdminController {
     public AdminController(UserService userService) {
         this.userService = userService;
     }
+
     @GetMapping("/admin/usuarios")
     public String listRegisteredUsers(Model model){
         List<UserDto> users = userService.findAllUsers();
@@ -54,5 +55,6 @@ public class AdminController {
     public String insertarMesa(){
         return "formulariomesa";
     }
+
 
 }

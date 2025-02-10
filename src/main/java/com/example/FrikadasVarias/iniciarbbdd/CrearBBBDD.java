@@ -41,6 +41,7 @@ public class CrearBBBDD implements CommandLineRunner{
             user.setPassword("1234");
             userService.saveCifrandoPassword(user);
 
+
             //Le asigno rol de ADMIN
             UserRole userRole = new UserRole();
             userRole.setRole(role); //role es el de admin
@@ -67,7 +68,7 @@ public class CrearBBBDD implements CommandLineRunner{
             producto1.setPrecio(40.0);
             producto1.setDescripcion("Juego de mesa de estrategia");
             producto1.setImagen("../img/icon.jpg");
-            producto1.setCategorias(List.of(categoria1));
+            producto1.setCategorias(List.of(categoria2));
             productoRepository.save(producto1);
 
 

@@ -32,6 +32,8 @@
                     <li><a class="dropdown-item" href="/admin/productosCrud">Productos Crud</a></li>
                     <li><a class="dropdown-item" href="#">Mesas Crud</a></li>
                     <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/admin/usuarios">Lista Usuarios</a></li>
+                    <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
                 </ul>
             </li>
@@ -45,10 +47,11 @@
         <div class="text-end">
             <a th:if="${#authorization.expression('isAuthenticated()')}"
                th:href="@{/perfil}" class="button px-2 text-white">
-                <span th:text="${#authentication.name}"></span>
+                <span class="bg-warning" th:text="${#authentication.name}"></span>
             </a>
-            <a href="/register" class="button px-2 text-white">Register</a>
-            <a href="/login" class="button px-2 text-white">login</a>
+            <a href="/register" class="button bg-primary px-2 text-white">Registrarse</a>
+            <a href="/login" class="button bg-success px-2 text-white">Iniciar Sesion</a>
+            <a href="/cesta" style=""><img style="width: 30px;height: 30px;" src="../img/carrito.png"></a>
         </div>
     </div>
     </div>
@@ -99,8 +102,16 @@
                 <div class="card">
                     <img th:src="${'/file/download/'+producto.imagen}" class="card-img-top" alt="${producto.nombre}">
                     <div class="card-body">
-                        <h5 class="card-title" th:text="${producto.nombre}"></h5>
+                        <h5 class="card-title bg-primary text-center"><a class="text-white" th:href="${'/verproducto/'+producto.id}" th:text="${producto.nombre}"></a></h5>
+                        <!-- Ponemos la categoria que tiene si es que la tiene, sino, lo dejamos en blanco o ocultamos -->
+                        <th:block th:if="${not #lists.isEmpty(producto.categorias)}">
+                            <p class="card-text">Categorías:</p>
+                            <ul>
+                                <li th:each="categoria : ${producto.categorias}" th:text="${categoria.nombre}"></li>
+                            </ul>
+                        </th:block>
                         <p class="card-text" th:text="${producto.descripcion}"></p>
+                        <p class="card-text" th:text="${'Precio: '+producto.precio +'€'}"></p>
                         <a href="#" class="btn btn-primary">Comprar</a>
                     </div>
                 </div>
@@ -112,8 +123,8 @@
 
 
 
-<footer style="background-color: #373035;" class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top position-sticky">
-    <p class="col-md-4 mb-0 text-white">© 2024 Company, Inc</p>
+<footer th:fragment="main-footer" style="background-color: #373035;" class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top sticky-bottom">
+    <p class="col-md-4 mb-0 text-white">© 2025 FrikadasVarias</p>
 
     <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
         <img style="width: 30px;height: 30px;border-radius: 50%;" src="../img/icon.jpg" class="footer-icon" alt="💀">

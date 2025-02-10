@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${producto.nombre}">Detalles del Producto</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="index :: main_navbar"></div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <img th:src="${'/file/download/' + producto.imagen}" class="img-fluid" th:alt="${producto.nombre}">
+    </div>
+    <div class="col-md-6">
+      <h1 th:text="${producto.nombre}"></h1>
+      <p class="lead" th:text="${producto.descripcion}"></p>
+      <p class="h3" th:text="${#numbers.formatDecimal(producto.precio, 1, 2) + '€'}"></p>
+
+      <h4 class="mt-4">Categorías:</h4>
+      <ul th:if="${not #lists.isEmpty(producto.categorias)}">
+        <li th:each="categoria : ${producto.categorias}" th:text="${categoria.nombre}"></li>
+      </ul>
+      <p th:if="${#lists.isEmpty(producto.categorias)}">Sin categorías asignadas</p>
+
+      <a href="#" class="btn btn-primary mt-3">Añadir al carrito</a>
+    </div>
+  </div>
+
+  <div class="comentarios mt-5">
+    <h3>Comentarios:</h3>
+
+    <!-- Lista de comentarios -->
+    <ul class="list-group" th:if="${not #lists.isEmpty(comentarios)}">
+      <li class="list-group-item" th:each="comentario : ${comentarios}">
+        <strong th:text="${comentario.user.name}">Usuario</strong> dijo:
+        <p th:text="${comentario.contenido}">Contenido del comentario</p>
+        <small class="text-muted" th:text="${#dates.format(comentario.date, 'dd/MM/yyyy')}">Fecha</small>
+      </li>
+    </ul>
+
+    <!-- Mensaje si no hay comentarios -->
+    <p th:if="${#lists.isEmpty(comentarios)}">No hay comentarios aún.</p>
+  </div>
+
+  <div class="button-comentar">
+    <form method="post" th:action="@{/comentar}" th:object="${comentario}">
+      <!-- Campo para contenido del comentario -->
+      <div class="form-group">
+        <label for="contenido">Comentario:</label>
+        <textarea class="form-control" id="contenido" th:field="*{contenido}" rows="3" required></textarea>
+      </div>
+      <!-- Fecha de creación del comentario -->
+      <input type="hidden" th:field="*{date}" />
+
+      <!-- Usuario relacionado con el comentario -->
+      <input type="hidden" th:field="*{user.email}" th:value="${#authentication.name}" />
+
+
+      <!-- Producto relacionado con el comentario -->
+      <input type="hidden" th:field="*{producto.id}" th:value="${producto.id}" />
+
+      <button type="submit" class="btn btn-primary mt-3">Comentar</button>
+    </form>
+  </div>
+
+
+
+</div>
+
+<footer style="background-color: #373035;" class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top sticky-bottom">
+  <p class="col-md-4 mb-0 text-white">© 2025 FrikadasVarias</p>
+
+  <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+    <img style="width: 30px;height: 30px;border-radius: 50%;" src="../img/icon.jpg" class="footer-icon" alt="💀">
+  </a>
+
+  <ul class="nav col-md-4 justify-content-end">
+    <li class="nav-item"><a href="/" class="nav-link px-2 text-white">Inicio</a></li>
+    <li class="nav-item"><a href="#" class="nav-link px-2 text-white" >Features</a></li>
+    <li class="nav-item"><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+    <li class="nav-item"><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+    <li class="nav-item"><a href="#" class="nav-link text-white">About</a></li>
+  </ul>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
