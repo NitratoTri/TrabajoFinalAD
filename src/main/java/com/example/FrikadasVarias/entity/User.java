@@ -26,7 +26,8 @@ public class User
 
     @Column(nullable=false, unique=true)
     private String email;
-
+    //Saldo
+    private Double saldo=100.0;
     //User relation with Cesta
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Cesta cesta;
@@ -102,5 +103,13 @@ public class User
 
     public void setMesa(List<Mesa> mesa) {
         this.mesa = mesa;
+    }
+
+    public Double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
     }
 }

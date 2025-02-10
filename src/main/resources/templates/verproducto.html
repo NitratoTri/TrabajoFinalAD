@@ -55,7 +55,14 @@
           </ul>
           <p th:if="${#lists.isEmpty(producto.categorias)}">Sin categorías asignadas</p>
 
-          <a href="#" class="btn btn-primary mt-3">Añadir al carrito</a>
+          <!-- Boton para añadir al carrito-->
+          <form th:action="@{/añadircarrito}"class="form-horizontal add-to-cart-form" role="form" method="post">
+            <input type="hidden" name="id" th:value="${producto.id}">
+            <input type="hidden" name="nombre" th:value="${producto.nombre}">
+            <input type="hidden" name="precio" th:value="${producto.precio}">
+            <input type="hidden" name="imagen" th:value="${'/file/download/'+producto.imagen}">
+            <button  type="submit" class="btn btn-primary add-to-cart-btn">Añadir al carrito</button>
+          </form>
         </div>
       </div>
 
@@ -65,9 +72,21 @@
         <!-- Lista de comentarios -->
         <ul class="list-group" th:if="${not #lists.isEmpty(comentarios)}">
           <li class="list-group-item" th:each="comentario : ${comentarios}">
+            <input type="hidden" name="id" th:value="${comentario.id}" />
             <strong th:text="${comentario.user.name}">Usuario</strong> dijo:
-            <p th:text="${comentario.contenido}">Contenido del comentario</p>
+            <div>
+              <p th:if="${comentario.validado}" th:text="${comentario.contenido}" ></p>
+              <span th:if="${!comentario.validado}" style="color: red;">(No validado)</span>
+            </div>
             <small class="text-muted" th:text="${#dates.format(comentario.date, 'dd/MM/yyyy')}">Fecha</small>
+
+            <!-- Botones para hide los comentarios solo visibles para los ADMIN-->
+            <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+              <form th:action="@{/validarComentario}" method="post">
+                <input type="hidden" name="id" th:value="${comentario.id}" />
+                <button type="submit" class="btn btn-danger">Validar Comentario</button>
+              </form>
+            </div>
           </li>
         </ul>
 

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-@Service
+
 public interface UserService {
 
 
@@ -28,7 +28,6 @@ public interface UserService {
     public List<Role> conseguirRolesByUser(User user);
     public void saveCifrandoPassword(User user);
 
-    void addProductoToCesta(String email, Producto producto);
 
     //metodo añadir al carrito
 

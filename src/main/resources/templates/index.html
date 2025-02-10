@@ -98,11 +98,11 @@
     </div>
     <!-- Productos -->
     <div class="container">
-        <h2 class="text-start">Productos</h2>
+        <h2 class="text-center">🧙‍♂️Todo lo que ofrecemos🧙‍♂️</h2>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <th:block th:each="producto, stat : ${productos}">
                 <div class="card">
-                    <img th:src="${'/file/download/'+producto.imagen}" class="card-img-top" alt="${producto.nombre}">
+                    <img style="width: auto; width:auto;" th:src="${'/file/download/'+producto.imagen}" class="card-img-top" alt="${producto.nombre}">
                     <div class="card-body">
                         <h5 class="card-title bg-primary text-center"><a class="text-white" th:href="${'/verproducto/'+producto.id}" th:text="${producto.nombre}"></a></h5>
                         <!-- Ponemos la categoria que tiene si es que la tiene, sino, lo dejamos en blanco o ocultamos -->

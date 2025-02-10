@@ -25,7 +25,7 @@ public class UserDto
     private String email;
     @NotEmpty(message = "Password should not be empty")
     private String password;
-    private BigDecimal saldo;
+    private Double saldo;
 
     public @NotEmpty(message = "Email should not be empty") @Email String getEmail() {
         return email;
@@ -67,11 +67,11 @@ public class UserDto
         this.password = password;
     }
 
-    public BigDecimal getSaldo() {
+    public Double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(BigDecimal saldo) {
+    public void setSaldo(Double saldo) {
         this.saldo = saldo;
     }
 }

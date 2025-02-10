@@ -9,6 +9,7 @@ import com.example.FrikadasVarias.repository.ProductoRepository;
 
 import com.example.FrikadasVarias.service.UserService;
 
+import com.example.FrikadasVarias.service.impl.CestaImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,8 @@ public class MainController {
     private ProductoRepository productoRepo;
     @Autowired
    private ComentarioRepository comentarioRepo;
-
+    @Autowired
+    CestaImpl cestaImpl;
     public MainController(UserService userService) {
         this.userService = userService;
     }
@@ -85,6 +87,8 @@ public class MainController {
     public String admin(){
         return "/productos";
     }
+
+
     @GetMapping("/verproducto/{id}")
     public String verProducto(Model model, @PathVariable Long id) {
         System.out.println("Accediendo al producto con ID: " + id);
@@ -102,17 +106,8 @@ public class MainController {
         return "verproducto";
     }
 
-    //Comentar method post
-    @PostMapping("/comentar")
-    public String comentar(@ModelAttribute Comentario comentario, Model model, Authentication auth) {
-        System.out.println(comentario.getContenido());
-        System.out.println(comentario.getProducto().getId());
-        User user = userService.findByEmail(auth.getName());
-        comentario.setUser(user);
 
-        comentarioRepo.save(comentario);
-        return "redirect:/verproducto/" + comentario.getProducto().getId();
-    }
+
 
     // handler method to handle user registration request
     @GetMapping("/register")
@@ -129,12 +124,18 @@ public ResponseEntity<String> añadirCarrito(@RequestParam("id") Long id, Authen
     String email = auth.getName();
     Producto producto = productoRepo.findById(id).orElse(null);
     if (producto!= null) {
-        userService.addProductoToCesta(email, producto);
+        cestaImpl.addProductoToCesta(email, producto);
 
         return ResponseEntity.ok("Producto añadido correctamente a la cesta");
     }
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Producto no encontrado");
 }
 
+@GetMapping("/perfil")
+public String perfil(Model model, Authentication auth) {
+    User user = userService.findByEmail(auth.getName());
+    model.addAttribute("user", user);
+    return "perfil";
+}
 
 }

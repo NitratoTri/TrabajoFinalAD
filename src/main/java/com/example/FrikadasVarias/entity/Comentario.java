@@ -17,6 +17,8 @@ public class Comentario {
     @ManyToOne
     @JoinColumn(name = "producto_id")
     private Producto producto;
+    //Añadimos el boolean validado
+    private boolean validado= true;
     private Date date;
     @Column(columnDefinition = "TEXT")
     private String contenido;
@@ -25,6 +27,14 @@ public class Comentario {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public boolean isValidado() {
+        return validado;
+    }
+
+    public void setValidado(boolean validado) {
+        this.validado = validado;
+    }
 
     public Long getId() {
         return id;
@@ -64,5 +74,17 @@ public class Comentario {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Comentario{" +
+                "id=" + id +
+                ", producto=" + producto +
+                ", validado=" + validado +
+                ", date=" + date +
+                ", contenido='" + contenido + '\'' +
+                ", user=" + user +
+                '}';
     }
 }
