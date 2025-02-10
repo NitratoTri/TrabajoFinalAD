@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Optional;
 
 @Controller
-public class VeProductoController {
+public class VerProductoController {
     private UserService userService;
     @Autowired
     private ProductoRepository productoRepo;
@@ -28,7 +28,7 @@ public class VeProductoController {
     @Autowired
     private ComentarioRepository repoComentarios;
 
-    public VeProductoController(UserService userService) {
+    public VerProductoController(UserService userService) {
         this.userService = userService;
     }
     @PostMapping("/comentar")
@@ -66,6 +66,23 @@ public class VeProductoController {
         user.setSaldo(user.getSaldo() + saldo);
         userService.save(user);
         return "redirect:/perfil";
+    }
+    @PostMapping("/borrarComentario")
+    public String borrarComentario(@RequestParam Long id) {
+        try {
+            Optional<Comentario> comentarioOpt = repoComentarios.findById(id);
+            if (comentarioOpt.isPresent()) {
+                Comentario comentario = comentarioOpt.get();
+                repoComentarios.delete(comentario);
+                System.out.println("Comentario borrado: " + comentario.getId());
+                return "redirect:/verproducto/" + comentario.getProducto().getId();
+            }
+            System.out.println("Comentario no encontrado con ID: " + id);
+            return "redirect:/";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/";
+        }
     }
 
 }

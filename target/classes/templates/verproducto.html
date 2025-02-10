@@ -81,11 +81,16 @@
             <small class="text-muted" th:text="${#dates.format(comentario.date, 'dd/MM/yyyy')}">Fecha</small>
 
             <!-- Botones para hide los comentarios solo visibles para los ADMIN-->
-            <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+            <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" style="display: flex; justify-content: space-between;">
               <form th:action="@{/validarComentario}" method="post">
                 <input type="hidden" name="id" th:value="${comentario.id}" />
                 <button type="submit" class="btn btn-danger">Validar Comentario</button>
               </form>
+              <!-- Boton para borrar comentario -->
+                <form th:action="@{/borrarComentario}" method="post">
+                    <input type="hidden" name="id" th:value="${comentario.id}" />
+                    <button type="submit" class="btn btn-danger">Borrar Comentario</button>
+                </form>
             </div>
           </li>
         </ul>

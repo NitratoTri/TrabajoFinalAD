@@ -50,6 +50,10 @@ public class MainController {
         return "index";
     }
 
+    @GetMapping("/error")
+    public String error(){
+        return "Error";
+    }
     @GetMapping("/login")
     public String loginForm() {
         return "login";
@@ -57,6 +61,7 @@ public class MainController {
 
     @GetMapping("/cesta")
     public String cesta(Model model, Authentication auth) {
+
         // Obtén el email del usuario autenticado
         String email = auth.getName();
 
@@ -133,9 +138,14 @@ public ResponseEntity<String> añadirCarrito(@RequestParam("id") Long id, Authen
 
 @GetMapping("/perfil")
 public String perfil(Model model, Authentication auth) {
-    User user = userService.findByEmail(auth.getName());
-    model.addAttribute("user", user);
-    return "perfil";
+        try {
+            User user = userService.findByEmail(auth.getName());
+            model.addAttribute("user", user);
+            return "perfil";
+        } catch (Exception e) {
+            return "redirect:/error";
+        }
+
 }
 
 }
