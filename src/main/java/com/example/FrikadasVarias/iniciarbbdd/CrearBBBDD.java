@@ -1,10 +1,7 @@
 package com.example.FrikadasVarias.iniciarbbdd;
 
 import com.example.FrikadasVarias.entity.*;
-import com.example.FrikadasVarias.repository.CategoriaRepository;
-import com.example.FrikadasVarias.repository.ProductoRepository;
-import com.example.FrikadasVarias.repository.RoleRepository;
-import com.example.FrikadasVarias.repository.UserRoleRepository;
+import com.example.FrikadasVarias.repository.*;
 import com.example.FrikadasVarias.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -24,6 +21,8 @@ public class CrearBBBDD implements CommandLineRunner{
     ProductoRepository productoRepository;
     @Autowired
     CategoriaRepository categoriaRepository;
+    @Autowired
+    MesaRepository mesaRepository;
     @Override
     public void run(String... args) throws Exception {
         if(roleRepository.findAll().isEmpty()){
@@ -86,6 +85,28 @@ public class CrearBBBDD implements CommandLineRunner{
             producto3.setImagen("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.eldiario.es%2Ftecnologia%2Fjuegos%2Fcatan-juego-mesa-estrategia_1_1090731.html&psig=AOvVaw3Z9Z6Z9Q6Z9Z6");
             producto3.setCategorias(List.of(categoria3));
             productoRepository.save(producto3);
+
+
+            //Creamos Mesas de ejemplo
+            Mesa mesa1= new Mesa();
+            mesa1.setNumero(1);
+            mesa1.setImg("../img/mesas/pequeña.png");
+            mesa1.setCapacidad(2);
+
+            Mesa mesa2= new Mesa();
+            mesa2.setNumero(2);
+            mesa2.setImg("../img/mesas/mediana.png");
+            mesa2.setCapacidad(4);
+
+            Mesa mesa3= new Mesa();
+            mesa3.setNumero(3);
+            mesa3.setImg("../img/mesas/grande.png");
+            mesa3.setCapacidad(8);
+
+            //Guardamos las mesas
+            mesaRepository.save(mesa1);
+            mesaRepository.save(mesa2);
+            mesaRepository.save(mesa3);
 
 
 

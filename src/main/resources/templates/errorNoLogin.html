@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Acceso Denegado</title>
+  <script type="text/javascript">
+    window.onload = function(){
+      // El mensaje se muestra mediante un alert
+      alert(/*[[${mensaje}]]*/ "Debes registrarte para reservar una mesa.");
+      // Redirige a la página de login o registro; ajusta la URL según tu aplicación
+      window.location.href = "/login";
+    }
+  </script>
+</head>
+<body>
+</body>
+</html>

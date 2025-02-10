@@ -1,15 +1,9 @@
 package com.example.FrikadasVarias.controller;
 
 import com.example.FrikadasVarias.dto.UserDto;
-import com.example.FrikadasVarias.entity.Cesta;
-import com.example.FrikadasVarias.entity.Comentario;
-import com.example.FrikadasVarias.entity.Producto;
-import com.example.FrikadasVarias.entity.User;
-import com.example.FrikadasVarias.repository.CestaRepository;
-import com.example.FrikadasVarias.repository.ComentarioRepository;
-import com.example.FrikadasVarias.repository.ProductoRepository;
+import com.example.FrikadasVarias.entity.*;
+import com.example.FrikadasVarias.repository.*;
 
-import com.example.FrikadasVarias.repository.UserRepository;
 import com.example.FrikadasVarias.service.UserService;
 
 import com.example.FrikadasVarias.service.impl.CestaImpl;
@@ -23,10 +17,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.io.File;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -43,6 +40,10 @@ public class MainController {
     CestaImpl cestaImpl;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    MesaRepository mesaRepository;
+
+
     public MainController(UserService userService) {
         this.userService = userService;
     }
@@ -65,6 +66,10 @@ public class MainController {
         model.addAttribute("users", users);
         model.addAttribute("productos", productos);
         return "index";
+    }
+    @GetMapping("/aboutus")
+    public String aboutus(){
+        return "aboutus";
     }
 
     @GetMapping("/error")
@@ -97,6 +102,23 @@ public class MainController {
         return "cesta"; // Nombre del archivo HTML (cesta.html)
     }
 
+    @GetMapping("/reservarmesa")
+    public String reservarMesa(Model model, Authentication auth){
+        if (auth == null) {
+            model.addAttribute("mensaje", "Debes registrarte para reservar una mesa.");
+            return "errorNoLogin";
+        }
+        User user = userService.findByEmail(auth.getName());
+        List<Mesa> mesas = mesaRepository.findAll();
+
+        model.addAttribute("mesas", mesas);
+        model.addAttribute("user", user);
+
+        return "reservarMesa";
+    }
+
+
+
 
     @GetMapping("/admin/logout")
     public String logoutAdmin(){
@@ -108,7 +130,7 @@ public class MainController {
         return "/logout";
     }
 
-    @GetMapping("/listaProductos")
+    @GetMapping("/listaproductos")
     public String admin(){
         return "/productos";
     }
