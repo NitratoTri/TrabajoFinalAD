@@ -46,6 +46,7 @@
             </form>
         </div>
         <div class="text-end">
+            <!-- Nombre del usuario conectado-->
             <a th:if="${#authorization.expression('isAuthenticated()')}"
                th:href="@{/perfil}" class="button px-2 text-white">
                 <span class="bg-warning" th:text="${#authentication.name}"></span>
@@ -66,7 +67,7 @@
         </div>
         <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img style="heigth: 50%;" src="../img/h12.webp"class="d-block w-100 img-fluid" alt="${producto.nombre}">
+                    <img style="heigth: 50%;" src="../img/carousel/h12.webp"class="d-block w-100 img-fluid" alt="${producto.nombre}">
                     <div class="container">
                         <div class="carousel-caption text-start">
                             <h1>Frikadas Varias</h1>
