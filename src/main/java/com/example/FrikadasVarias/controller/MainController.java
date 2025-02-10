@@ -1,12 +1,15 @@
 package com.example.FrikadasVarias.controller;
 
 import com.example.FrikadasVarias.dto.UserDto;
+import com.example.FrikadasVarias.entity.Cesta;
 import com.example.FrikadasVarias.entity.Comentario;
 import com.example.FrikadasVarias.entity.Producto;
 import com.example.FrikadasVarias.entity.User;
+import com.example.FrikadasVarias.repository.CestaRepository;
 import com.example.FrikadasVarias.repository.ComentarioRepository;
 import com.example.FrikadasVarias.repository.ProductoRepository;
 
+import com.example.FrikadasVarias.repository.UserRepository;
 import com.example.FrikadasVarias.service.UserService;
 
 import com.example.FrikadasVarias.service.impl.CestaImpl;
@@ -35,16 +38,30 @@ public class MainController {
     @Autowired
    private ComentarioRepository comentarioRepo;
     @Autowired
+    CestaRepository cestaRepo;
+    @Autowired
     CestaImpl cestaImpl;
+    @Autowired
+    UserRepository userRepository;
     public MainController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping({"/", "/index"})
     public String home(Model model){
-        List<UserDto> users = userService.findAllUsers();
+        List<User> users = userRepository.findAll();
         List<Producto> productos= productoRepo.findAll();
-
+        for (User user : users) {
+            Cesta cesta = new Cesta();;
+            if(user.getCesta()==null){
+                cesta.setUser(user);
+                user.setCesta(cesta);
+                cestaRepo.save(cesta);
+                userRepository.save(user);
+            }else {
+                cesta = user.getCesta();
+            }
+        }
         model.addAttribute("users", users);
         model.addAttribute("productos", productos);
         return "index";
@@ -63,20 +80,23 @@ public class MainController {
     public String cesta(Model model, Authentication auth) {
 
         // Obtén el email del usuario autenticado
-        String email = auth.getName();
-
+        User user = userService.findByEmail(auth.getName());
+        //Conseguir la cesta del usuario
+        Cesta cesta = user.getCesta();
         // Busca los productos en la cesta del usuario
-        List<Producto> productos = productoRepo.findByCestas_User_Email(email);
-
+        List<Producto> productos = productoRepo.findByCestas_User_Email(user.getEmail());
+        cesta.setProductos(productos);
         // Calcula el subtotal de los productos en la cesta
         double subtotal = productos.stream().mapToDouble(Producto::getPrecio).sum();
-
+        cesta.setPrecioTotal(subtotal);
+        cestaRepo.save(cesta);
         // Agrega los datos al modelo para pasarlos a la vista
-        model.addAttribute("cesta", productos);
+        model.addAttribute("cesta", cesta.getProductos());
         model.addAttribute("subtotal", subtotal);
-
+        model.addAttribute("user", user);
         return "cesta"; // Nombre del archivo HTML (cesta.html)
     }
+
 
     @GetMapping("/admin/logout")
     public String logoutAdmin(){
@@ -143,7 +163,7 @@ public String perfil(Model model, Authentication auth) {
             model.addAttribute("user", user);
             return "perfil";
         } catch (Exception e) {
-            return "redirect:/error";
+            return "redirect:/";
         }
 
 }

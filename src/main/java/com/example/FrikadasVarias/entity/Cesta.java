@@ -19,6 +19,7 @@ public class Cesta {
     @JoinColumn(name = "user_id")
     private User user;
     //RElation between Cesta and product
+    private double precioTotal;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "cesta_producto",
             joinColumns = @JoinColumn(name = "cesta_id"),
@@ -47,5 +48,13 @@ public class Cesta {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public double getPrecioTotal() {
+        return precioTotal;
+    }
+
+    public void setPrecioTotal(double precioTotal) {
+        this.precioTotal = precioTotal;
     }
 }
