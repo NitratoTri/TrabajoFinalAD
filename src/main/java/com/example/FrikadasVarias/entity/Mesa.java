@@ -3,6 +3,8 @@ package com.example.FrikadasVarias.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.sql.Date;
+
 @Data
 @Entity
 public class Mesa {
@@ -13,7 +15,7 @@ public class Mesa {
 
     private Integer numero;
     private boolean reservado;
-
+    private Date fecha;
     //Relation between user nad mesa
     @ManyToOne
     @JoinColumn(name = "user_id")
