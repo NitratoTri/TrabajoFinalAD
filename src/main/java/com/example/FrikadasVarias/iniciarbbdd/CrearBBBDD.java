@@ -67,7 +67,7 @@ public class CrearBBBDD implements CommandLineRunner{
             producto1.setNombre("Catan");
             producto1.setPrecio(40.0);
             producto1.setDescripcion("Juego de mesa de estrategia");
-            producto1.setImagen("../img/icon.jpg");
+            producto1.setImagen("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.eldiario.es%2Ftecnologia%2Fjuegos%2Fcatan-juego-mesa-estrategia_1_1090731.html&psig=AOvVaw3Z9Z6Z9Q6Z9Z6");
             producto1.setCategorias(List.of(categoria2));
             productoRepository.save(producto1);
 
