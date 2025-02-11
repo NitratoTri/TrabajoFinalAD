@@ -33,13 +33,19 @@ public class VerProductoController {
     }
     @PostMapping("/comentar")
     public String comentar(@ModelAttribute Comentario comentario, Model model, Authentication auth) {
-        System.out.println(comentario.getContenido());
-        System.out.println(comentario.getProducto().getId());
-        User user = userService.findByEmail(auth.getName());
-        comentario.setUser(user);
-        System.out.println(comentario.toString());
-        comentarioRepo.save(comentario);
-        return "redirect:/verproducto/" + comentario.getProducto().getId();
+        if (auth == null) {
+            model.addAttribute("mensaje", "Debes registrarte para comentar.");
+            return "errorNoLogin";
+        } else {
+            User user = userService.findByEmail(auth.getName());
+            System.out.println(comentario.getContenido());
+            System.out.println(comentario.getProducto().getId());
+
+            comentario.setUser(user);
+            System.out.println(comentario.toString());
+            comentarioRepo.save(comentario);
+            return "redirect:/verproducto/" + comentario.getProducto().getId();
+        }
     }
     @PostMapping("/validarComentario")
     public String cambiarEstado(@RequestParam Long id) {
