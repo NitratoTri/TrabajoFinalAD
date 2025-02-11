@@ -42,6 +42,8 @@ public class MainController {
     UserRepository userRepository;
     @Autowired
     MesaRepository mesaRepository;
+    @Autowired
+    CategoriaRepository categoriaRepository;
 
 
     public MainController(UserService userService) {
@@ -131,7 +133,11 @@ public class MainController {
     }
 
     @GetMapping("/listaproductos")
-    public String admin(){
+    public String listaProductos(Model model){
+        List<Producto> productos = productoRepo.findAll();
+        List<Categoria> categorias= categoriaRepository.findAll();
+        model.addAttribute("productos", productos);
+        model.addAttribute("categorias", categoriaRepository.findAll());
         return "/productos";
     }
 

@@ -3,6 +3,8 @@ package com.example.FrikadasVarias.service.impl;
 import com.example.FrikadasVarias.service.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -16,11 +18,14 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender emailSender;
     private String emisor = "pablodaniel.s374378@cesurformacion.com";
 
+    private static final Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
     @Override
     public void enviarCorreo(String destinatario, String asunto, String mensaje) {
+        logger.info("Enviando correo a: {}", destinatario);
         String toAddress = destinatario;
         String fromAddress = emisor;
         String senderName = "Pablo Daniel";
+        logger.info("Nombre del sender: {}" , senderName);
         String subject = asunto;
         String content = mensaje;
         MimeMessage message = emailSender.createMimeMessage();

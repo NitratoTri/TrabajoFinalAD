@@ -8,9 +8,7 @@ import com.example.FrikadasVarias.service.FileProcessingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -23,6 +21,20 @@ public class ProductoCRUDcontroller {
     CategoriaRepository repoCategorias;
     @Autowired
     private FileProcessingService service;
+
+    @GetMapping("/lista")
+    public String listarProductos(Model model) {
+        List<Producto> productos = productoRepository.findAll();
+        model.addAttribute("productos", productos);
+        return "listaProductos";
+    }
+    @GetMapping("/api/productos")
+    @ResponseBody
+    public List<Producto> listarProductos() {
+        List<Producto> productos = productoRepository.findAll();
+        return productos;
+    }
+
     @PostMapping("/crud/insertarp")
     public String insertarProducto(@ModelAttribute Producto producto,
                                    @RequestParam("fichero") MultipartFile fichero,

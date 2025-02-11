@@ -66,7 +66,7 @@ public class CrearBBBDD implements CommandLineRunner{
             producto1.setNombre("Catan");
             producto1.setPrecio(40.0);
             producto1.setDescripcion("Juego de mesa de estrategia");
-            producto1.setImagen("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.eldiario.es%2Ftecnologia%2Fjuegos%2Fcatan-juego-mesa-estrategia_1_1090731.html&psig=AOvVaw3Z9Z6Z9Q6Z9Z6");
+            producto1.setImagen("p-1739266590226-hero12.webp");
             producto1.setCategorias(List.of(categoria2));
             productoRepository.save(producto1);
 
@@ -74,7 +74,7 @@ public class CrearBBBDD implements CommandLineRunner{
             producto2.setNombre("Risk");
             producto2.setPrecio(30.0);
             producto2.setDescripcion("Juego de mesa de estrategia");
-            producto2.setImagen("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.eldiario.es%2Ftecnologia%2Fjuegos%2Fcatan-juego-mesa-estrategia_1_1090731.html&psig=AOvVaw3Z9Z6Z9Q6Z9Z6");
+            producto2.setImagen("p-1739266590226-hero12.webp");
             producto2.setCategorias(List.of(categoria2));
             productoRepository.save(producto2);
 
@@ -82,7 +82,7 @@ public class CrearBBBDD implements CommandLineRunner{
             producto3.setNombre("Warhammer 40k");
             producto3.setPrecio(100.0);
             producto3.setDescripcion("Juego de mesa de estrategia");
-            producto3.setImagen("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.eldiario.es%2Ftecnologia%2Fjuegos%2Fcatan-juego-mesa-estrategia_1_1090731.html&psig=AOvVaw3Z9Z6Z9Q6Z9Z6");
+            producto3.setImagen("p-1739266590226-hero12.webp");
             producto3.setCategorias(List.of(categoria3));
             productoRepository.save(producto3);
 
