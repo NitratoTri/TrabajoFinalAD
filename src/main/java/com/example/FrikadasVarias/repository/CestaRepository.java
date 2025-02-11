@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CestaRepository extends JpaRepository<Cesta, Long> {
+    Cesta findByUserId(Long userId); // Busca cesta por el id del usuario.
 
 }
