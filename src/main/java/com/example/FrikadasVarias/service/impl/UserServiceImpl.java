@@ -6,6 +6,8 @@ import com.example.FrikadasVarias.repository.RoleRepository;
 import com.example.FrikadasVarias.repository.UserRepository;
 import com.example.FrikadasVarias.repository.UserRoleRepository;
 import com.example.FrikadasVarias.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRoleRepository userRoleRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
@@ -33,6 +37,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(UserDto userDto) {
+        logger.info("Inicio de guardado de usuario con email: {}", userDto.getEmail());
+
         User user = new User();
         user.setName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
@@ -41,10 +47,12 @@ public class UserServiceImpl implements UserService {
         //user.setPassword(userDto.getPassword());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
+        logger.debug("Usuario guardado en la base de datos");
 
         //Después de crear el usuario, le asigno el rol usuario
         Role role = roleRepository.findByName("ROLE_USER");
         userRoleRepository.save(new UserRole(user,role));
+        logger.info("Rol 'ROLE_USER' asignado al usuario {}", user.getEmail());
     }
 
     public void save(User user) {
