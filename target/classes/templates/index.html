@@ -18,9 +18,12 @@
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
             <li><a href="/" class="nav-link px-2 text-secondary">Inicio</a></li>
-            <li><a href="/listaproductos" class="nav-link px-2 text-white">Lista Productos</a></li>
-            <li><a href="/aboutus" class="nav-link px-2 text-white">Sobre Nosotros</a></li>
-            <li><a href="/reservarmesa" class="nav-link px-2 text-white">Reservar Mesa</a></li>
+
+            <li  sec:authorize="isAuthenticated()"><a href="/listaproductos" class="nav-link px-2 text-white">Lista Productos</a></li>
+            <li  sec:authorize="isAuthenticated()"><a href="/aboutus" class="nav-link px-2 text-white">Sobre Nosotros</a></li>
+            <li  sec:authorize="isAuthenticated()"><a href="/reservarmesa" class="nav-link px-2 text-white">Reservar Mesa</a></li>
+
+
             <!-- Enlaces que solo aparecen si el user tiene rol ADMIN -->
             <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
                 <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
