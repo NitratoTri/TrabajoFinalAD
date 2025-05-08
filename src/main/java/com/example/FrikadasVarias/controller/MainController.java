@@ -196,4 +196,15 @@ public String perfil(Model model, Authentication auth) {
 
 }
 
+    @GetMapping("/verproducto")
+    public String buscarProductoPorNombre(@RequestParam String nombre, Model model) {
+        Producto producto = productoRepo.findByNombre(nombre);
+        if (producto == null) {
+            model.addAttribute("mensaje", "Producto no encontrado");
+            return "errorProducto"; // Página de error personalizada
+        }
+        model.addAttribute("producto", producto);
+        return "redirect:/verproducto/"+producto.getId(); // Página de detalles del producto
+    }
+
 }

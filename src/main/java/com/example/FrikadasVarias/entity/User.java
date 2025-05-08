@@ -37,11 +37,11 @@ public class User
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comentario> comentarios;
 
-
     @Column(nullable=false)
     private String password;
 
-
+    @Column(name = "profile_picture")
+    private String profilepicture;
 
     /*@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(
@@ -104,6 +104,7 @@ public class User
     public void setMesa(List<Mesa> mesa) {
         this.mesa = mesa;
     }
+
 
     public Double getSaldo() {
         return saldo;
