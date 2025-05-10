@@ -73,7 +73,10 @@
         <!-- Lista de comentarios -->
         <ul class="list-group" th:if="${not #lists.isEmpty(comentarios)}">
           <li class="list-group-item" th:each="comentario : ${comentarios}">
+            <!-- Mostrar el nombre del usuario y el contenido del comentario -->
             <input type="hidden" name="id" th:value="${comentario.id}" />
+            <!-- Mostrar el nombre del usuario y la imagen de perfil sdel usuario-->
+            <img th:src="${'/file/download/' + comentario.user.profilepicture}"  onerror="this.src='../img/pfp.jpg'" class="rounded-circle" style="width: 50px; height: 50px; border-radius: 50%" alt="Usuario">
             <strong th:text="${comentario.user.name}">Usuario</strong> dijo:
             <div>
               <p th:if="${comentario.validado}" th:text="${comentario.contenido}" ></p>

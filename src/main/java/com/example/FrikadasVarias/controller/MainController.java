@@ -138,7 +138,7 @@ public class MainController {
         List<Categoria> categorias= categoriaRepository.findAll();
         model.addAttribute("productos", productos);
         model.addAttribute("categorias", categoriaRepository.findAll());
-        return "/productos";
+        return "productos";
     }
 
 
@@ -184,17 +184,7 @@ public ResponseEntity<String> añadirCarrito(@RequestParam("id") Long id, Authen
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Producto no encontrado");
 }
 
-@GetMapping("/perfil")
-public String perfil(Model model, Authentication auth) {
-        try {
-            User user = userService.findByEmail(auth.getName());
-            model.addAttribute("user", user);
-            return "perfil";
-        } catch (Exception e) {
-            return "redirect:/";
-        }
 
-}
 
     @GetMapping("/verproducto")
     public String buscarProductoPorNombre(@RequestParam String nombre, Model model) {

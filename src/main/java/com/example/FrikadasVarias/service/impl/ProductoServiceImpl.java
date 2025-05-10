@@ -21,4 +21,5 @@ public class ProductoServiceImpl implements ProductoService {
     public List<Producto> findByNombreContaining(String query) {
         return productRepository.findByNombreContaining(query); // Cambia esto por la lista de productos encontrados
     }
+
 }

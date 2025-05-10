@@ -45,19 +45,53 @@ public class CrearBBBDD implements CommandLineRunner{
             Role role2 = new Role();
             role2.setName("ROLE_USER");
             roleRepository.save(role2);
-
+            //Creamos un usuario de ejemplo
             User user=new User();
             user.setName("Pablo Alvarez");
             user.setEmail("pabloalvarezolaya@gmail.com");
             user.setPassword("1234");
             userService.saveCifrandoPassword(user);
+            //Creamos 3 mas  de ejemplo, con diferente informacion
+            User user2=new User();
+            user2.setName("Dani");
+            user2.setEmail("ttessexd88@gmail.com");
+            user2.setPassword("1234");
+            userService.saveCifrandoPassword(user2);
 
+            User user3=new User();
+            user3.setName("Javi");
+            user3.setEmail("pipi@gmail.com");
+            user3.setPassword("1234");
+            userService.saveCifrandoPassword(user3);
+
+            User user4=new User();
+            user4.setName("Toni");
+            user4.setEmail("toni@gmail.com");
+            user4.setPassword("1234");
+            userService.saveCifrandoPassword(user4);
 
             //Le asigno rol de ADMIN
             UserRole userRole = new UserRole();
             userRole.setRole(role); //role es el de admin
             userRole.setUser(user);
             userRoleRepository.save(userRole);
+
+            //Le asigno rol de USER
+            UserRole userRole2 = new UserRole();
+            userRole2.setRole(role2); //role es el de user
+            userRole2.setUser(user2);
+            userRoleRepository.save(userRole2);
+
+            UserRole userRole3 = new UserRole();
+            userRole3.setRole(role2); //role es el de user
+            userRole3.setUser(user3);
+            userRoleRepository.save(userRole3);
+
+            UserRole userRole4 = new UserRole();
+            userRole4.setRole(role2); //role es el de user
+            userRole4.setUser(user4);
+            userRoleRepository.save(userRole4);
+
 
             //Creamos categorias de ejemplo
             Categoria categoria1= new Categoria();
@@ -103,7 +137,7 @@ public class CrearBBBDD implements CommandLineRunner{
             producto2.setPrecio(30.0);
             producto2.setDescripcion("Juego de mesa de estrategia");
             producto2.setImagen("risk.jpg");
-            producto2.setCategorias(List.of(categoria2));
+            producto2.setCategorias(List.of(categoria2, categoria6));
             productoRepository.save(producto2);
 
             Producto producto3= new Producto();
@@ -142,6 +176,34 @@ public class CrearBBBDD implements CommandLineRunner{
                 producto.setImagen(imagen);
                 // Guardar el producto en la lista
                 productos.add(producto);
+            }
+            //Asignamos comentarios de ejemplo a los productos
+            for (Producto p : productos) {
+                List<Comentario> comentarios = new ArrayList<>();
+                for (int i = 0; i < 3; i++) {
+                    Comentario comentario = new Comentario();
+                    comentario.setContenido(faker.lorem().sentence());
+                    comentario.setDate(new java.sql.Date(faker.date().past(30, java.util.concurrent.TimeUnit.DAYS).getTime()));
+                    comentario.setProducto(p);
+                    // Asignar un usuario aleatorio como autor del comentario de los creados ya
+                    User autor = null;
+                    switch (i) {
+                        case 0:
+                            autor = user;
+                            break;
+                        case 1:
+                            autor = user2;
+                            break;
+                        case 2:
+                            autor = user3;
+                            break;
+                        default:
+                            autor = user4;
+                    }
+                    comentario.setUser(autor);
+                    comentarios.add(comentario);
+                }
+                p.setComentarios(comentarios);
             }
             // Guardamos los productos en la base de datos
             productoRepository.saveAll(productos);

@@ -41,7 +41,7 @@ public class User
     private String password;
 
     @Column(name = "profile_picture")
-    private String profilepicture;
+    private String profilepicture= "";
 
     /*@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(
@@ -112,5 +112,13 @@ public class User
 
     public void setSaldo(Double saldo) {
         this.saldo = saldo;
+    }
+
+    public String getProfilepicture() {
+        return profilepicture;
+    }
+
+    public void setProfilepicture(String profilepicture) {
+        this.profilepicture = profilepicture;
     }
 }

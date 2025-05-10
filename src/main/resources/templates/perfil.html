@@ -20,6 +20,15 @@
             <div class="col-12">
                 <div class="card">
                     <div th:object="${user}" class="card-body">
+
+                        <img th:src="${'/file/download/'+user.profilepicture}" alt="Foto de perfil" onerror="this.src='../img/pfp.jpg'" style="height: 400px; width: 400px; object-fit: cover;border-radius: 50%" class="card-img-top"  />
+                        <div class="mb-3">
+                            <label for="fichero" class="form-label">Imagen</label>
+                            <form th:action="@{/perfil/cambiarpfp}" method="post" enctype="multipart/form-data">
+                                <input type="file" class="form-control" id="fichero" name="fichero" required>
+                                <button type="submit" class="btn btn-primary mt-2">Cambiar foto de perfil</button>
+                            </form>
+                        </div>
                         <h5 class="card-title">Nombre</h5>
                         <p class="card-text" th:text="*{name}"></p>
                         <h5 class="card-title">Email</h5>
@@ -34,6 +43,7 @@
                                  <button type="submit" class="btn btn-primary mt-2">Recargar</button>
                             </div>
                             <a th:href="@{/logout}" class="btn btn-primary mt-2">Cerrar Sesion</a>
+                            <a th:href="@{/perfil/editar}" class="btn btn-primary mt-2">Editar Perfil</a>
                         </form>
                     </div>
                 </div>
