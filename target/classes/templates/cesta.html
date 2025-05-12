@@ -11,27 +11,28 @@
 <div th:replace="index :: main_navbar"></div>
 
 <!-- Bloque para mostrar el mensaje de error vía JavaScript -->
-<div th:if="${param.error != null}">
+<div th:if="${param.error != null}" class="alert alert-danger text-center" role="alert">
     <script type="text/javascript">
         alert('Saldo insuficiente para realizar la compra.');
     </script>
 </div>
 
-<div class="productos-user">
-    <h2>Cesta de <span class="bg-success" th:text="${#authentication.name}"></span></h2>
-    </p>
+<div class="productos-user container my-5">
+    <h2 class="text-center mb-4">Cesta de <span class="badge bg-success" th:text="${#authentication.name}"></span></h2>
 
     <!-- Listado de productos -->
     <div class="row row-cols-1 row-cols-md-3 g-4 productos-list">
         <th:block th:each="p : ${cesta}">
-            <div class="card">
-                <img th:src="${'/file/download/' + p.imagen}" class="card-img-top" th:alt="${p.nombre}">
-                <div class="card-body">
-                    <h5 class="card-title bg-primary text-center">
-                        <a class="text-white" th:href="${'/verproducto/' + p.id}" th:text="${p.nombre}"></a>
-                    </h5>
-                    <p class="card-text">Precio: <span th:text="${p.precio}"></span> €</p>
-                    <a href="#" class="btn btn-danger">Quitar</a>
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img th:src="${'/file/download/' + p.imagen}" class="card-img-top img-fluid" th:alt="${p.nombre}" style="object-fit: cover; height: 200px;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-center text-white bg-primary py-2 rounded">
+                            <a class="text-white text-decoration-none" th:href="${'/verproducto/' + p.id}" th:text="${p.nombre}"></a>
+                        </h5>
+                        <p class="card-text mt-2 fw-bold">Precio: <span th:text="${p.precio}"></span> €</p>
+                        <a href="#" class="btn btn-danger mt-auto w-100">Quitar</a>
+                    </div>
                 </div>
             </div>
         </th:block>
@@ -39,38 +40,26 @@
 
     <!-- Subtotal y botón de compra -->
     <div class="row mt-4">
-        <div class="col-md-12 shop-summary">
-            <!-- Añadimos una lista de los productos, su nombre y su precio -->
-            <ul>
+        <div class="col-md-12 shop-summary bg-light p-4 rounded shadow-sm">
+            <h3 class="text-center mb-3">Resumen de la compra</h3>
+            <ul class="list-group mb-3">
                 <th:block th:each="p : ${cesta}">
-                    <li th:text="${p.nombre + ' - ' + p.precio + '€'}"></li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span th:text="${p.nombre}"></span>
+                        <span class="fw-bold" th:text="${p.precio + '€'}"></span>
+                    </li>
                 </th:block>
             </ul>
             <hr>
-            <!-- Subtotal -->
-            <h3>Subtotal: <span th:text="${subtotal}"></span> €</h3>
-            <form th:action="@{/comprar}" method="post">
-                <button type="submit" class="btn btn-primary">Comprar</button>
+            <h3 class="text-center">Subtotal: <span class="text-success fw-bold" th:text="${subtotal}"></span> €</h3>
+            <form th:action="@{/comprar}" method="post" class="text-center mt-3">
+                <button type="submit" class="btn btn-primary btn-lg">Comprar</button>
             </form>
         </div>
     </div>
 </div>
-
-<footer style="background-color: #373035;" class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top fixed-bottom">
-    <p class="col-md-4 mb-0 text-white">© 2025 FrikadasVarias</p>
-
-    <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-        <img style="width: 30px;height: 30px;border-radius: 50%;" src="../img/icon.jpg" class="footer-icon" alt="💀">
-    </a>
-
-    <ul class="nav col-md-4 justify-content-end">
-        <li class="nav-item"><a href="/" class="nav-link px-2 text-white">Inicio</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-white" >Features</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-        <li class="nav-item"><a href="#" class="nav-link text-white">About</a></li>
-    </ul>
-</footer>
+<!-- Footer -->
+<div th:replace="index :: footer"></div>
 <div th:replace="index :: scripts"></div>
 </body>
 </html>

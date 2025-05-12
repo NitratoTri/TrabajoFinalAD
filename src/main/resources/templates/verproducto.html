@@ -46,23 +46,23 @@
           <img style="border-radius: 25%;" th:src="${'/file/download/' + producto.imagen}" class="img-fluid" th:alt="${producto.nombre}">
         </div>
         <div class="col-md-6">
-          <h1 th:text="${producto.nombre}"></h1>
-          <p class="lead" th:text="${producto.descripcion}"></p>
-          <p class="h3" th:text="${#numbers.formatDecimal(producto.precio, 1, 2) + '€'}"></p>
+          <h1 class="display-4 text-primary" th:text="${producto.nombre}"></h1>
+          <p class="lead text-muted" th:text="${producto.descripcion}"></p>
+          <p class="h3 text-success fw-bold" th:text="${#numbers.formatDecimal(producto.precio, 1, 2) + '€'}"></p>
 
-          <h4 class="mt-4">Categorías:</h4>
-          <ul th:if="${not #lists.isEmpty(producto.categorias)}">
-            <li th:each="categoria : ${producto.categorias}" th:text="${categoria.nombre}"></li>
+          <h4 class="mt-4 text-secondary">Categorías:</h4>
+          <ul class="list-unstyled" th:if="${not #lists.isEmpty(producto.categorias)}">
+            <li class="badge bg-info text-dark me-1" th:each="categoria : ${producto.categorias}" th:text="${categoria.nombre}"></li>
           </ul>
-          <p th:if="${#lists.isEmpty(producto.categorias)}">Sin categorías asignadas</p>
+          <p class="text-danger" th:if="${#lists.isEmpty(producto.categorias)}">Sin categorías asignadas</p>
 
           <!-- Boton para añadir al carrito-->
-          <form th:action="@{/añadircarrito}"class="form-horizontal add-to-cart-form" role="form" method="post">
+          <form th:action="@{/añadircarrito}" class="form-horizontal add-to-cart-form mt-4" role="form" method="post">
             <input type="hidden" name="id" th:value="${producto.id}">
             <input type="hidden" name="nombre" th:value="${producto.nombre}">
             <input type="hidden" name="precio" th:value="${producto.precio}">
             <input type="hidden" name="imagen" th:value="${'/file/download/'+producto.imagen}">
-            <button  type="submit" class="btn btn-primary add-to-cart-btn">Añadir al carrito</button>
+            <button type="submit" class="btn btn-lg btn-primary w-100 add-to-cart-btn">Añadir al carrito</button>
           </form>
         </div>
       </div>
@@ -71,30 +71,29 @@
         <h3>Comentarios:</h3>
 
         <!-- Lista de comentarios -->
-        <ul class="list-group" th:if="${not #lists.isEmpty(comentarios)}">
-          <li class="list-group-item" th:each="comentario : ${comentarios}">
-            <!-- Mostrar el nombre del usuario y el contenido del comentario -->
-            <input type="hidden" name="id" th:value="${comentario.id}" />
-            <!-- Mostrar el nombre del usuario y la imagen de perfil sdel usuario-->
-            <img th:src="${'/file/download/' + comentario.user.profilepicture}"  onerror="this.src='../img/pfp.jpg'" class="rounded-circle" style="width: 50px; height: 50px; border-radius: 50%" alt="Usuario">
-            <strong th:text="${comentario.user.name}">Usuario</strong> dijo:
-            <div>
-              <p th:if="${comentario.validado}" th:text="${comentario.contenido}" ></p>
-              <span th:if="${!comentario.validado}" style="color: red;">(No validado)</span>
+       <ul class="list-group" th:if="${not #lists.isEmpty(comentarios)}">
+          <li class="list-group-item d-flex align-items-start" th:each="comentario : ${comentarios}">
+            <div class="me-3">
+              <img th:src="${'/file/download/' + comentario.user.profilepicture}" onerror="this.src='../img/pfp.jpg'"
+                   class="rounded-circle border border-secondary" style="width: 50px; height: 50px;" alt="Usuario">
             </div>
-            <small class="text-muted" th:text="${#dates.format(comentario.date, 'dd/MM/yyyy')}">Fecha</small>
-
-            <!-- Botones para hide los comentarios solo visibles para los ADMIN-->
-            <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" style="display: flex; justify-content: space-between;">
-              <form th:action="@{/validarComentario}" method="post">
+            <div class="flex-grow-1">
+              <div class="d-flex justify-content-between align-items-center">
+                <strong th:text="${comentario.user.name}" class="text-primary">Usuario</strong>
+                <small class="text-muted" th:text="${#dates.format(comentario.date, 'dd/MM/yyyy')}">Fecha</small>
+              </div>
+              <p class="mb-1" th:if="${comentario.validado}" th:text="${comentario.contenido}"></p>
+              <span th:if="${!comentario.validado}" class="text-danger">(No validado)</span>
+            </div>
+            <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="ms-3 d-flex flex-column">
+              <form th:action="@{/validarComentario}" method="post" class="mb-2">
                 <input type="hidden" name="id" th:value="${comentario.id}" />
-                <button type="submit" class="btn btn-danger">Validar Comentario</button>
+                <button type="submit" class="btn btn-sm btn-success">Validar</button>
               </form>
-              <!-- Boton para borrar comentario -->
-                <form th:action="@{/borrarComentario}" method="post">
-                    <input type="hidden" name="id" th:value="${comentario.id}" />
-                    <button type="submit" class="btn btn-danger">Borrar Comentario</button>
-                </form>
+              <form th:action="@{/borrarComentario}" method="post">
+                <input type="hidden" name="id" th:value="${comentario.id}" />
+                <button type="submit" class="btn btn-sm btn-danger">Borrar</button>
+              </form>
             </div>
           </li>
         </ul>
@@ -103,12 +102,12 @@
         <p th:if="${#lists.isEmpty(comentarios)}">No hay comentarios aún.</p>
       </div>
 
-      <div class="button-comentar">
-        <form method="post" th:action="@{/comentar}" th:object="${comentario}">
+    <div class="button-comentar mt-5">
+        <form method="post" th:action="@{/comentar}" th:object="${comentario}" class="p-4 border rounded shadow-sm bg-light">
           <!-- Campo para contenido del comentario -->
-          <div class="form-group">
-            <label for="contenido">Comentario:</label>
-            <textarea class="form-control" id="contenido" th:field="*{contenido}" rows="3" required></textarea>
+          <div class="form-group mb-3">
+            <label for="contenido" class="form-label fw-bold">Escribe tu comentario:</label>
+            <textarea class="form-control" id="contenido" th:field="*{contenido}" rows="4" placeholder="Escribe aquí tu comentario..." required></textarea>
           </div>
           <!-- Fecha de creación del comentario -->
           <input type="hidden" th:field="*{date}" />
@@ -116,11 +115,10 @@
           <!-- Usuario relacionado con el comentario -->
           <input type="hidden" th:field="*{user.email}" th:value="${#authentication.name}" />
 
-
           <!-- Producto relacionado con el comentario -->
           <input type="hidden" th:field="*{producto.id}" th:value="${producto.id}" />
 
-          <button type="submit" class="btn btn-primary mt-3">Comentar</button>
+          <button type="submit" class="btn btn-primary w-100 mt-3">Enviar Comentario</button>
         </form>
       </div>
     </div>

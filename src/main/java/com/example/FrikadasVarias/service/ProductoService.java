@@ -13,4 +13,6 @@ public interface ProductoService {
     @Query("SELECT p FROM Producto p WHERE p.nombre LIKE %:query%")
     public List<Producto> findByNombreContaining(String query);
 
+
+
 }
