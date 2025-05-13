@@ -10,41 +10,45 @@
 <div th:replace="index :: main_navbar"></div>
 <!--Pagina para mostrar toda la informacion del usuario actual-->
 <main>
-    <div class="container-user" th:if="${#authorization.expression('isAuthenticated()')}">
-        <div class="row">
+    <div class="container-user py-5" th:if="${#authorization.expression('isAuthenticated()')}">
+        <div class="row mb-4">
             <div class="col-12">
-                <h1 class="text-center">Perfil de Usuario</h1>
+                <h1 class="text-center text-primary">Perfil de Usuario</h1>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div th:object="${user}" class="card-body">
-
-                        <img th:src="${'/file/download/'+user.profilepicture}" alt="Foto de perfil" onerror="this.src='../img/pfp.jpg'" style="height: 400px; width: 400px; object-fit: cover;border-radius: 50%" class="card-img-top"  />
-                        <div class="mb-3">
-                            <label for="fichero" class="form-label">Imagen</label>
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-sm border-0">
+                    <div th:object="${user}" class="card-body text-center">
+                        <img th:src="${'/file/download/'+user.profilepicture}"
+                             alt="Foto de perfil"
+                             onerror="this.src='../img/pfp.jpg'"
+                             class="rounded-circle mb-4"
+                             style="height: 200px; width: 200px; object-fit: cover; border: 5px solid #007bff;" />
+                        <div class="mb-4">
                             <form th:action="@{/perfil/cambiarpfp}" method="post" enctype="multipart/form-data">
+                                <label for="fichero" class="form-label fw-bold">Cambiar Imagen</label>
                                 <input type="file" class="form-control" id="fichero" name="fichero" required>
-                                <button type="submit" class="btn btn-primary mt-2">Cambiar foto de perfil</button>
+                                <button type="submit" class="btn btn-primary mt-3">Actualizar Foto</button>
                             </form>
                         </div>
-                        <h5 class="card-title">Nombre</h5>
-                        <p class="card-text" th:text="*{name}"></p>
-                        <h5 class="card-title">Email</h5>
-                        <p class="card-text" th:text="*{email}"></p>
-                        <h5 class="card-title">Saldo</h5>
-                        <p class="card-text" th:text="*{saldo+'€'}"></p>
-                        <!--Form para recargar saldo con th:action-->
-                        <form th:action="@{/recargarsaldo}" method="post">
+                        <h5 class="card-title text-secondary">Nombre</h5>
+                        <p class="card-text text-dark fw-bold" th:text="*{name}"></p>
+                        <h5 class="card-title text-secondary">Email</h5>
+                        <p class="card-text text-dark fw-bold" th:text="*{email}"></p>
+                        <h5 class="card-title text-secondary">Saldo</h5>
+                        <p class="card-text text-success fw-bold" th:text="*{saldo+'€'}"></p>
+                        <form th:action="@{/recargarsaldo}" method="post" class="mt-4">
                             <div class="form-group">
-                                <label for="saldo">Recargar saldo</label>
+                                <label for="saldo" class="form-label fw-bold">Recargar Saldo</label>
                                 <input type="number" class="form-control" id="saldo" step="0.1" name="saldo" placeholder="Introduce la cantidad a recargar">
-                                 <button type="submit" class="btn btn-primary mt-2">Recargar</button>
+                                <button type="submit" class="btn btn-success mt-3 w-100">Recargar</button>
                             </div>
-                            <a th:href="@{/logout}" class="btn btn-primary mt-2">Cerrar Sesion</a>
-                            <a th:href="@{/perfil/editar}" class="btn btn-primary mt-2">Editar Perfil</a>
                         </form>
+                        <div class="d-flex justify-content-between mt-4">
+                            <a th:href="@{/logout}" class="btn btn-danger">Cerrar Sesión</a>
+                            <a th:href="@{/perfil/editar}" class="btn btn-warning">Editar Perfil</a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -10,6 +10,7 @@ import com.example.FrikadasVarias.repository.MesaRepository;
 import com.example.FrikadasVarias.repository.ProductoRepository;
 import com.example.FrikadasVarias.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
 @Autowired
     UserService userService;

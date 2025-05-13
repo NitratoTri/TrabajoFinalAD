@@ -20,33 +20,32 @@
 <!-- Barra de navegación -->
 <div th:replace="index :: main_navbar"></div>
 <br />
-
 <div class="container">
-    <h1 class="text-center mb-5">Reservar Mesa</h1>
-    <!-- Uso de un grid responsive de Bootstrap: 1 columna en móvil, 2 en tablet, 3 en escritorio -->
+    <h1 class="text-center mb-5 text-primary">Reservar Mesa</h1>
+    <!-- Responsive grid with Bootstrap -->
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <div class="col" th:each="mesa : ${mesas}">
-            <div class="card h-100 shadow-sm">
-                <!-- Imagen de la mesa -->
-                <img th:src="${mesa.img}" th:alt="'Mesa ' + ${mesa.id}" class="card-img-top">
+            <div class="card h-100 shadow-sm border-0">
+                <!-- Mesa image -->
+                <img th:src="${mesa.img}" th:alt="'Mesa ' + ${mesa.id}" class="card-img-top rounded-top">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="'Mesa ' + ${mesa.numero}"></h5>
-                    <p class="card-text">
+                    <h5 class="card-title text-center text-secondary" th:text="'Mesa ' + ${mesa.numero}"></h5>
+                    <p class="card-text text-center">
                         <strong>ID:</strong> <span th:text="${mesa.id}"></span><br>
                         <strong>Capacidad:</strong> <span th:text="${mesa.capacidad}"></span>
                     </p>
                 </div>
-                <div class="card-footer bg-transparent border-top-0">
-                    <!-- Si la mesa está reservada, mostramos el mensaje -->
-                    <div th:if="${mesa.reservado}" class="text-center py-2 bg-danger text-white fw-bold">
+                <div class="card-footer bg-light border-top-0">
+                    <!-- Reserved message -->
+                    <div th:if="${mesa.reservado}" class="text-center py-2 bg-danger text-white fw-bold rounded">
                         MESA RESERVADA - <span th:text="${#dates.format(mesa.fecha, 'dd/MM/yyyy')}"></span>
                     </div>
-                    <!-- Si la mesa no está reservada, se muestra el formulario -->
+                    <!-- Reservation form -->
                     <div th:unless="${mesa.reservado}">
                         <form th:action="@{/reservarMesa}" method="post" class="d-flex flex-column">
                             <input type="hidden" name="id" th:value="${mesa.id}">
                             <div class="mb-3">
-                                <input type="date" name="fecha" class="form-control" required placeholder="Fecha">
+                                <input type="date" name="fecha" class="form-control border-primary" required placeholder="Fecha">
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Reservar</button>
                         </form>
@@ -56,7 +55,6 @@
         </div>
     </div>
 </div>
-
 <div th:replace="index :: scripts"></div>
 </body>
 </html>
