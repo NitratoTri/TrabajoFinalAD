@@ -79,9 +79,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto convertEntityToDto(User user){
         UserDto userDto = new UserDto();
-        String[] name = user.getName().split(" ");
+        String[] name = user.getName().split(" ", 2); // Solo divide en dos partes
+        userDto.setId(user.getId());
         userDto.setFirstName(name[0]);
-        userDto.setLastName(name[1]);
+        userDto.setLastName(name.length > 1 ? name[1] : ""); // Si no hay apellido, pon vacío
         userDto.setEmail(user.getEmail());
         userDto.setPassword(user.getPassword());
         return userDto;
@@ -93,6 +94,10 @@ public class UserServiceImpl implements UserService {
             roles.add(userRole.getRole());
         }
         return roles;
+    }
+    @Override
+    public List<User> findAllUsersEntity() {
+        return userRepository.findAll();
     }
 
 }

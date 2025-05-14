@@ -21,6 +21,7 @@ public interface UserService {
     User findByEmail(String email);
 
     List<UserDto> findAllUsers();
+    List<User>  findAllUsersEntity();
 
     public UserDto convertEntityToDto(User user);
     public void save(User user);
