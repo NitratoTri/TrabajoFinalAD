@@ -88,8 +88,9 @@
                                                 <tr th:each="user: ${users}">
                                                     <td th:text="${user.id}"></td>
                                                     <td>
-                                                        <img th:src="${user.profilePicture != null && !#strings.isEmpty(user.profilePicture) ? user.profilePicture : '../img/pfp.jpg'}"
-                                                             alt="Avatar" class="user-avatar">
+                                                        <img th:src="${'/file/download/'+user.profilePicture}"
+                                                             alt="Avatar" class="user-avatar"
+                                                            onerror="this.src='../img/pfp.jpg'">
                                                         <span th:text="${user.firstName}"></span>
                                                     </td>
                                                     <td th:text="${user.lastName}"></td>

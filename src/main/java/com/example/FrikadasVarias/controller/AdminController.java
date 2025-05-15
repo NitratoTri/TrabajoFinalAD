@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Controller
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
-@Autowired
+    @Autowired
     UserService userService;
     @Autowired
     CategoriaRepository categoriaRepository;

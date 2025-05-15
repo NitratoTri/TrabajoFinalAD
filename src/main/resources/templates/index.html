@@ -119,38 +119,61 @@
     </div>
 <!-- Productos -->
 <div class="container my-5">
-    <h2 class="text-center mb-4">🧙‍♂️ Todo lo que ofrecemos 🧙‍♂️</h2>
+    <h2 class="text-center mb-4 display-5 fw-bold text-primary-emphasis">🧙‍♂️ Todo lo que ofrecemos 🧙‍♂️</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <th:block th:each="producto, stat : ${productos}">
             <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img th:src="${'/file/download/'+producto.imagen}" class="card-img-top img-fluid" alt="${producto.nombre}" style="object-fit: cover; height: 200px;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-center bg-primary text-white py-2">
-                            <a class="text-white text-decoration-none" th:href="${'/verproducto/'+producto.id}" th:text="${producto.nombre}"></a>
+                <div class="card h-100 shadow-lg border-0 producto-card position-relative">
+                    <img th:src="${'/file/download/'+producto.imagen}" class="card-img-top img-fluid rounded-top" alt="${producto.nombre}" style="object-fit: cover; height: 220px; border-bottom: 4px solid #0d6efd;">
+                    <div class="card-body d-flex flex-column bg-light rounded-bottom">
+                        <h5 class="card-title text-center bg-primary text-white py-2 rounded mb-3 shadow-sm">
+                            <a class="text-white text-decoration-none fw-semibold" th:href="${'/verproducto/'+producto.id}" th:text="${producto.nombre}"></a>
                         </h5>
                         <th:block th:if="${not #lists.isEmpty(producto.categorias)}">
-                            <p class="card-text mt-2"><strong>Categorías:</strong></p>
-                            <ul class="list-unstyled p-2 rounded bg-light">
-                                <li th:each="categoria : ${producto.categorias}" th:class="'py-1 px-2 bg-secondary text-white rounded mb-1'" th:text="${categoria.nombre}"></li>
+                            <p class="card-text mt-2 mb-1"><strong>Categorías:</strong></p>
+                            <ul class="list-unstyled d-flex flex-wrap gap-1 mb-2">
+                                <li th:each="categoria : ${producto.categorias}" class="badge bg-secondary text-white px-2 py-1 mb-1 me-1" th:text="${categoria.nombre}"></li>
                             </ul>
                         </th:block>
-                        <p class="card-text mt-2" th:text="${producto.descripcion}"></p>
-                        <p class="card-text mt-2 text-success fw-bold" th:text="${'Precio: '+producto.precio +'€'}"></p>
+                        <p class="card-text mt-2 text-body-secondary" th:text="${producto.descripcion}"></p>
+                        <p class="card-text mt-2 text-success fw-bold fs-5" th:text="${'Precio: '+producto.precio +'€'}"></p>
                         <form th:action="@{/añadircarrito}" class="form-horizontal add-to-cart-form mt-auto" role="form" method="post">
                             <input type="hidden" name="id" th:value="${producto.id}">
                             <input type="hidden" name="nombre" th:value="${producto.nombre}">
                             <input type="hidden" name="precio" th:value="${producto.precio}">
                             <input type="hidden" name="imagen" th:value="${'/file/download/'+producto.imagen}">
-                            <button type="submit" class="btn btn-primary w-100 add-to-cart-btn">Añadir al carrito</button>
+                            <button type="submit" class="btn btn-primary w-100 add-to-cart-btn shadow-sm">
+                                <i class="bi bi-cart-plus me-2"></i>Añadir al carrito
+                            </button>
                         </form>
                     </div>
                 </div>
             </div>
         </th:block>
     </div>
+    <style>
+        .producto-card {
+            transition: transform 0.18s, box-shadow 0.18s;
+        }
+        .producto-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+            z-index: 2;
+        }
+        .producto-card .card-title a:hover {
+            color: #ffc107 !important;
+            text-shadow: 0 1px 4px #00000033;
+        }
+        .add-to-cart-btn {
+            transition: background 0.15s, box-shadow 0.15s;
+        }
+        .add-to-cart-btn:hover {
+            background: #198754;
+            box-shadow: 0 2px 8px #19875444;
+        }
+    </style>
 </div>
-</main>
+</main></main>
 
 
 
