@@ -5,38 +5,40 @@
     <title>FrikadasVarias</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="icon" type="image/x-icon" href="../img/icon.jpg"></head>
-<body>
+<body style="background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%); min-height: 100vh;">
 <div th:replace="index :: main_navbar"></div>
 
-<!--Aqui apareceran la lista de productos que al buscar tienen un nombre parecido al producto buscado -->
 <main>
-<h1 class="text-center my-4">Productos que se parecen a: <span th:text="${query}" class="text-primary"></span></h1>
-    <!-- Productos -->
-    <div class="container my-5">
+    <div class="container my-5 p-4 border rounded-4 shadow-lg bg-white">
+        <h1 class="text-center mb-4 text-primary fw-bold">
+            Productos que se parecen a: <span th:text="${query}" class="text-primary"></span>
+        </h1>
         <h2 class="text-center mb-4">🧙‍♂️ Todo lo que ofrecemos 🧙‍♂️</h2>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <th:block th:each="producto, stat : ${productos}">
                 <div class="col">
-                    <div class="card h-100 shadow-sm">
-                        <img th:src="${'/file/download/'+producto.imagen}" class="card-img-top img-fluid" alt="${producto.nombre}" style="object-fit: cover; height: 200px;">
+                    <div class="card h-100 shadow-lg border-0 rounded-4">
+                        <img th:src="${'/file/download/'+producto.imagen}" class="card-img-top img-fluid rounded-top-4" alt="${producto.nombre}" style="object-fit: cover; height: 200px;">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title text-center bg-primary text-white py-2">
+                            <h5 class="card-title text-center bg-primary text-white py-2 rounded-3 mb-3">
                                 <a class="text-white text-decoration-none" th:href="${'/verproducto/'+producto.id}" th:text="${producto.nombre}"></a>
                             </h5>
                             <th:block th:if="${not #lists.isEmpty(producto.categorias)}">
-                                <p class="card-text mt-2"><strong>Categorías:</strong></p>
-                                <ul class="list-unstyled p-2 rounded bg-light">
-                                    <li th:each="categoria : ${producto.categorias}" th:class="'py-1 px-2 bg-secondary text-white rounded mb-1'" th:text="${categoria.nombre}"></li>
+                                <p class="card-text mt-2 mb-1"><strong>Categorías:</strong></p>
+                                <ul class="list-unstyled p-2 rounded bg-light mb-2">
+                                    <li th:each="categoria : ${producto.categorias}" class="d-inline-block me-2 mb-1">
+                                        <span class="badge bg-secondary rounded-pill px-3 py-2" th:text="${categoria.nombre}"></span>
+                                    </li>
                                 </ul>
                             </th:block>
                             <p class="card-text mt-2" th:text="${producto.descripcion}"></p>
-                            <p class="card-text mt-2 text-success fw-bold" th:text="${'Precio: '+producto.precio +'€'}"></p>
+                            <p class="card-text mt-2 text-success fw-bold fs-5" th:text="${'Precio: '+producto.precio +'€'}"></p>
                             <form th:action="@{/añadircarrito}" class="form-horizontal add-to-cart-form mt-auto" role="form" method="post">
                                 <input type="hidden" name="id" th:value="${producto.id}">
                                 <input type="hidden" name="nombre" th:value="${producto.nombre}">
                                 <input type="hidden" name="precio" th:value="${producto.precio}">
                                 <input type="hidden" name="imagen" th:value="${'/file/download/'+producto.imagen}">
-                                <button type="submit" class="btn btn-primary w-100 add-to-cart-btn">Añadir al carrito</button>
+                                <button type="submit" class="btn btn-primary w-100 add-to-cart-btn rounded-pill fw-semibold">Añadir al carrito</button>
                             </form>
                         </div>
                     </div>
@@ -44,8 +46,44 @@
             </th:block>
         </div>
     </div>
+    <style>
+        .card {
+            border-radius: 2rem;
+            border: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        }
+        .card-title {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .btn-primary, .btn-success, .btn-secondary {
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .badge {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        @media (max-width: 768px) {
+            .card {
+                border-radius: 1rem;
+            }
+            .card-body {
+                padding: 1.2rem 0.5rem;
+            }
+            .btn, .btn-primary {
+                font-size: 1rem;
+                padding: 0.5rem 1.2rem;
+            }
+        }
+    </style>
 </main>
 
+<div th:replace="index :: footer"></div>
 <div th:replace="index :: scripts"></div>
 </body>
 </html>

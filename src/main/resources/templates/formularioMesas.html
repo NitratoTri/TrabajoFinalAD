@@ -9,50 +9,74 @@
         crossorigin="anonymous">
   <link rel="icon" type="image/x-icon" href="../img/icon.jpg">
 </head>
-<body>
-
+<body style="background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%); min-height: 100vh;">
 <!-- Barra de navegación -->
 <div th:replace="index :: main_navbar"></div>
 
 <!-- Formulario de Mesa -->
-<div class="container mt-4">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <h1 class="text-center">Formulario de Mesa</h1>
+<div class="container my-5 d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card shadow-lg rounded-4 w-100" style="max-width: 500px;">
+    <div class="card-body p-4">
+      <h1 class="text-center mb-4 text-primary fw-bold">Formulario de Mesa</h1>
       <form th:action="@{/crud/guardarmesa}" method="post" th:object="${mesa}">
         <input type="hidden" th:field="*{id}">
-
         <div class="mb-3">
           <label for="numero" class="form-label">Número de Mesa</label>
-          <input type="number" id="numero" th:field="*{numero}" class="form-control" required>
+          <input type="number" id="numero" th:field="*{numero}" class="form-control" required placeholder="Ej: 1">
         </div>
-
         <div class="mb-3">
           <label for="capacidad" class="form-label">Capacidad</label>
-          <input type="number" id="capacidad" th:field="*{capacidad}" class="form-control" required>
+          <input type="number" id="capacidad" th:field="*{capacidad}" class="form-control" required placeholder="Ej: 4">
         </div>
-
         <div class="mb-3">
           <label for="img" class="form-label">Imagen</label>
-          <select id="img" th:field="*{img}" class="form-control">
+          <select id="img" th:field="*{img}" class="form-select rounded-3">
             <option value="">Selecciona una imagen</option>
             <option th:each="imagen : ${imagenes}" th:value="${'../img/mesas/'+imagen}" th:text="${imagen}"></option>
           </select>
         </div>
-        <!-- Resevado -->
+        <!-- Reservado -->
         <div class="mb-3 form-check">
           <input type="checkbox" id="reservado" th:field="*{reservado}" class="form-check-input">
           <label for="reservado" class="form-check-label">Reservado</label>
         </div>
-
-        <div class="d-flex justify-content-between">
-          <button type="submit" class="btn btn-success">Guardar</button>
-          <a th:href="@{/}" class="btn btn-secondary">Cancelar</a>
+        <div class="d-flex justify-content-center gap-3">
+          <button type="submit" class="btn btn-success px-4 rounded-pill fw-semibold">Guardar</button>
+          <a th:href="@{/}" class="btn btn-secondary px-4 rounded-pill fw-semibold">Cancelar</a>
         </div>
       </form>
     </div>
   </div>
 </div>
+<style>
+  .card {
+    border-radius: 2rem;
+    border: none;
+  }
+  .form-label {
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .form-control, .form-select {
+    border-radius: 1rem;
+  }
+  .btn-success, .btn-secondary {
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  @media (max-width: 768px) {
+    .card {
+      border-radius: 1rem;
+    }
+    .card-body {
+      padding: 1.2rem 0.5rem;
+    }
+    .btn {
+      font-size: 1rem;
+      padding: 0.5rem 1.2rem;
+    }
+  }
+</style>
 
 <div th:replace="index :: scripts"></div>
 </body>

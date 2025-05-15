@@ -25,6 +25,7 @@ public class UserDto
     private String email;
     @NotEmpty(message = "Password should not be empty")
     private String password;
+    private String profilePicture = "";
     private Double saldo;
 
     public @NotEmpty(message = "Email should not be empty") @Email String getEmail() {
@@ -65,6 +66,14 @@ public class UserDto
 
     public void setPassword(@NotEmpty(message = "Password should not be empty") String password) {
         this.password = password;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     public Double getSaldo() {

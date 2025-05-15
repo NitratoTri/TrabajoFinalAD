@@ -30,9 +30,8 @@ public class ProductoCRUDcontroller {
     }
     @GetMapping("/api/productos")
     @ResponseBody
-    public List<Producto> listarProductos() {
-        List<Producto> productos = productoRepository.findAll();
-        return productos;
+    public List<Producto> listarProductosApi() {
+        return productoRepository.findAll();
     }
 
     @PostMapping("/crud/insertarp")

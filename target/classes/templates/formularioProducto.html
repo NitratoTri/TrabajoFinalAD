@@ -9,18 +9,57 @@
 <body>
 <div th:replace="index :: main_navbar"></div>
 <main>
-    <div class="container my-4 formulario">
-        <form th:object="${producto}" th:action="@{/crud/insertarp}" method="post" enctype="multipart/form-data" >
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
+            min-height: 100vh;
+        }
+        .formulario {
+            background: #fff;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 2.5rem 2rem;
+            max-width: 600px;
+        }
+        .form-label {
+            font-weight: 500;
+            color: #0d6efd;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13,110,253,.15);
+        }
+        .btn-primary {
+            border-radius: 1rem;
+            padding: 0.5rem 2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .form-select {
+            border-radius: 1rem;
+        }
+        .form-control, .form-select {
+            border-radius: 1rem;
+        }
+        @media (max-width: 768px) {
+            .formulario {
+                padding: 1.2rem 0.5rem;
+                border-radius: 0.5rem;
+            }
+        }
+    </style>
+    <div class="container my-5 d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+        <form th:object="${producto}" th:action="@{/crud/insertarp}" method="post" enctype="multipart/form-data" class="formulario w-100">
             <input type="hidden" th:field="*{id}">
             <!-- ID -->
             <div class="mb-3">
                 <label for="id" class="form-label">ID</label>
                 <input type="text" class="form-control" th:field="*{id}" id="id" disabled>
             </div>
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" th:field="*{nombre}" id="nombre" placeholder="Escribe el título aquí">
-                </div>
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" th:field="*{nombre}" id="nombre" placeholder="Escribe el título aquí">
+            </div>
             <!-- Categoría -->
             <div class="mb-3">
                 <label for="categoria" class="form-label">Categoría</label>
@@ -28,20 +67,21 @@
                     <option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.nombre}"></option>
                 </select>
             </div>
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea class="form-control" th:field="*{descripcion}" id="descripcion" name="descripcion" rows="3" required></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="precio" class="form-label">Precio</label>
-                    <input type="number" class="form-control" th:field="*{precio}" id="precio" placeholder="Escribe el precio aquí" step="0.01" required>
-                </div>
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea class="form-control" th:field="*{descripcion}" id="descripcion" name="descripcion" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="precio" class="form-label">Precio</label>
+                <input type="number" class="form-control" th:field="*{precio}" id="precio" placeholder="Escribe el precio aquí" step="0.01" required>
+            </div>
             <div class="mb-3">
                 <label for="fichero" class="form-label">Imagen</label>
                 <input type="file" class="form-control" id="fichero" name="fichero">
             </div>
-
-            <button type="submit" class="btn btn-primary">Guardar Producto</button>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Guardar Producto</button>
+            </div>
         </form>
     </div>
 </main>

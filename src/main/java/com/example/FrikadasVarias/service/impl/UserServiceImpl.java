@@ -80,6 +80,7 @@ public class UserServiceImpl implements UserService {
     public UserDto convertEntityToDto(User user){
         UserDto userDto = new UserDto();
         String[] name = user.getName().split(" ", 2); // Solo divide en dos partes
+        userDto.setProfilePicture(user.getProfilepicture());
         userDto.setId(user.getId());
         userDto.setFirstName(name[0]);
         userDto.setLastName(name.length > 1 ? name[1] : ""); // Si no hay apellido, pon vacío
