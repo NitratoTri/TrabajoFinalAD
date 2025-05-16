@@ -1,3 +1,19 @@
-footer.nav-item{
-color: white;
+.producto-card {
+    transition: transform 0.18s, box-shadow 0.18s;
+}
+.producto-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 2;
+}
+.producto-card .card-title a:hover {
+    color: #ffc107 !important;
+    text-shadow: 0 1px 4px #00000033;
+}
+.add-to-cart-btn {
+    transition: background 0.15s, box-shadow 0.15s;
+}
+.add-to-cart-btn:hover {
+    background: #198754;
+    box-shadow: 0 2px 8px #19875444;
 }

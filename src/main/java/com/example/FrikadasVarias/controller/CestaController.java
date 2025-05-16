@@ -17,48 +17,47 @@ public class CestaController {
     @Autowired
     private UserService userService;
 
-    //Metodo post de comprar en el carrito
-     @PostMapping("/comprar")
+    // Método POST para comprar en el carrito
+    @PostMapping("/comprar")
     public String comprar(Authentication auth) {
-        System.out.println("Comprando");
-         User user = userService.findByEmail(auth.getName());
-         Cesta cesta= user.getCesta();
-         if (user.getSaldo() < cesta.getPrecioTotal()) {
-             return "redirect:/cesta?error";
-         }else {
+        User user = userService.findByEmail(auth.getName());
+        Cesta cesta = user.getCesta();
 
-             StringBuilder emailContent = new StringBuilder();
-             emailContent.append("<h1>Compra Exitosa</h1>");
-             emailContent.append("<p>Gracias por su compra. Los productos adquiridos son:</p>");
-             emailContent.append("<ul>");
+        if (user.getSaldo() < cesta.getPrecioTotal()) {
+            return "redirect:/cesta?error";
+        }
 
-             for (Producto p : cesta.getProductos()) {
-                 emailContent.append("<li>")
-                         .append(p.getNombre())
-                         .append(" - ")
-                         .append(p.getPrecio())
-                         .append(" €</li>");
-             }
+        // Construir el contenido del correo electrónico
+        StringBuilder emailContent = new StringBuilder();
+        emailContent.append("<h1>Compra Exitosa</h1>")
+                    .append("<p>Gracias por su compra. Los productos adquiridos son:</p>")
+                    .append("<ul>");
 
-             emailContent.append("</ul>");
+        cesta.getProductos().forEach(p -> emailContent.append("<li>")
+                .append(p.getNombre())
+                .append(" - ")
+                .append(String.format("%.2f", p.getPrecio()))
+                .append(" $</li>")
+        );
 
+        emailContent.append("</ul>")
+                    .append("<p>Total: ")
+                    .append(String.format("%.2f", cesta.getPrecioTotal()))
+                    .append(" $</p>");
 
-             user.setSaldo(user.getSaldo() - cesta.getPrecioTotal());
-             cesta.setPrecioTotal(0);
-             cesta.getProductos().clear();
-             userService.save(user);
+        // Actualizar saldo y limpiar la cesta
+        user.setSaldo(user.getSaldo() - cesta.getPrecioTotal());
+        cesta.setPrecioTotal(0);
+        cesta.getProductos().clear();
+        userService.save(user);
 
-             // Enviar el correo al usuario
-             emailService.enviarCorreo(
-                     user.getEmail(),
-                     "Compra Exitosa",
-                     emailContent.toString()
-             );
+        // Enviar el correo al usuario
+        emailService.enviarCorreo(
+                user.getEmail(),
+                "Compra Exitosa",
+                emailContent.toString()
+        );
 
-         }
-
-
-
-         return "redirect:/cesta";
-     }
+        return "redirect:/cesta";
+    }
 }
