@@ -32,6 +32,10 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 @Server(
                         description = "Local server",
                         url = "http://localhost:9000"
+                ),
+                @Server(
+                        description = "Deployment server",
+                        url = "https://frikadasvarias.up.railway.app"
                 )
         }
 )
