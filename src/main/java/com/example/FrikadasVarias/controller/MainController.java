@@ -7,7 +7,11 @@ import com.example.FrikadasVarias.repository.*;
 import com.example.FrikadasVarias.service.UserService;
 
 import com.example.FrikadasVarias.service.impl.CestaImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,15 +19,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
-
-
-import java.io.File;
 import java.sql.Date;
 import java.time.LocalDate;
-
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 
 @Controller
@@ -51,9 +50,10 @@ public class MainController {
     }
 
     @GetMapping({"/", "/index"})
-    public String home(Model model){
+    public String home(Model model, @RequestParam (defaultValue = "0") int page, HttpServletRequest request){
+        Pageable pageable = PageRequest.of(page, 9);
         List<User> users = userRepository.findAll();
-        List<Producto> productos= productoRepo.findAll();
+        Page<Producto> productos = productoRepo.findAll(pageable);
         for (User user : users) {
             Cesta cesta = new Cesta();;
             if(user.getCesta()==null){
@@ -67,6 +67,12 @@ public class MainController {
         }
         model.addAttribute("users", users);
         model.addAttribute("productos", productos);
+
+        String requestedWith = request.getHeader("X-Requested-With");
+        if ("XMLHttpRequest".equals(requestedWith)) {
+            // Devuelve solo el fragmento de productos y paginación
+            return "fragments/productos :: productosYpaginacion";
+        }
         return "index";
     }
     @GetMapping("/aboutus")
@@ -118,9 +124,6 @@ public class MainController {
 
         return "reservarMesa";
     }
-
-
-
 
     @GetMapping("/admin/logout")
     public String logoutAdmin(){
