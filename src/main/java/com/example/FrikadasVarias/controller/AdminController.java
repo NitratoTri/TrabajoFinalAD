@@ -85,5 +85,9 @@ public class AdminController {
         return "formularioMesas";
     }
 
+    @GetMapping("/admin/swagger")
+    public String swagger() {
+        return "redirect:https://frikadasvarias.up.railway.app/swagger-ui/index.html";
+    }
 
 }
