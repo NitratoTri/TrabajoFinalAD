@@ -7,7 +7,7 @@ RUN mvn clean package -DskipTests
 # Etapa de ejecución
 FROM openjdk:17.0.1-jdk-slim
 WORKDIR /app
-COPY --from=build /app/target/frikadasvarias-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/FrikadasVarias-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 ENV PORT=8080
