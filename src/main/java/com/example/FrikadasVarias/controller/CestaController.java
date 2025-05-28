@@ -60,4 +60,23 @@ public class CestaController {
 
         return "redirect:/cesta";
     }
+    // Método POST para quitar un producto a la cesta
+    @PostMapping("/quitarProducto")
+    public String quitarProducto(Authentication auth, Long productoId) {
+        User user = userService.findByEmail(auth.getName());
+        Cesta cesta = user.getCesta();
+        Producto producto = cesta.getProductos().stream()
+                .filter(p -> p.getId().equals(productoId))
+                .findFirst()
+                .orElse(null);
+
+        if (producto != null) {
+            cesta.getProductos().remove(producto);
+            cesta.setPrecioTotal(cesta.getPrecioTotal() - producto.getPrecio());
+            userService.save(user);
+        }
+
+        return "redirect:/cesta";
+    }
+
 }
