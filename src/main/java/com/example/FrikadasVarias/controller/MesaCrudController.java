@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
 public class MesaCrudController {
     @Autowired
     MesaRepository mesaRepository;
-    private static final String IMAGE_FOLDER = "src/main/resources/static/img/mesas"; // Ajusta según tu proyecto
+    private static final String IMAGE_FOLDER =
+            System.getenv().getOrDefault("IMAGE_FOLDER", "src/main/resources/static/img/mesas");
+
 
     @PostMapping("/crud/eliminarmesa")
     public String borrarMesa(@RequestParam Long id) {
@@ -34,7 +37,7 @@ public class MesaCrudController {
             return "redirect:/";
         }
         File carpeta = new File(IMAGE_FOLDER);
-        List<String> imagenes = Arrays.stream(carpeta.listFiles())
+        List<String> imagenes = Arrays.stream(Objects.requireNonNull(carpeta.listFiles()))
                 .filter(File::isFile)
                 .map(File::getName)
                 .collect(Collectors.toList());
