@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
@@ -33,7 +34,9 @@ public class AdminController {
     ProductoRepository productosrepo;
     @Autowired
     private MesaRepository mesaRepository;
-    private static final String IMAGE_FOLDER = "src/main/resources/static/img/mesas"; // Ajusta según tu proyecto
+    private static final String IMAGE_FOLDER =
+            System.getenv().getOrDefault("IMAGE_FOLDER", "src/main/resources/static/img/mesas");
+
 
     public AdminController(UserService userService) {
         this.userService = userService;
@@ -74,7 +77,7 @@ public class AdminController {
         User user = userService.findByEmail(auth.getName());
         Mesa mesa = new Mesa();
         File carpeta = new File(IMAGE_FOLDER);
-        List<String> imagenes = Arrays.stream(carpeta.listFiles())
+        List<String> imagenes = Arrays.stream(Objects.requireNonNull(carpeta.listFiles()))
                 .filter(File::isFile)
                 .map(File::getName)
                 .collect(Collectors.toList());
